@@ -1,11 +1,3 @@
-# cc
-
-getting started
-
-# write apython code for a simpele task that will read a .txt file from it an expression and convert it into postfix 
-
-
-```
 def infix_to_postfix(expression):
     precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '(': 0}
     stack = []
@@ -71,6 +63,3 @@ print(f"Infix Expression: {infix_expression}")
 print(f"Postfix Expression: {postfix_expression}")
 result = evaluate_postfix(postfix_expression)
 print(f"The result of the postfix expression '{postfix_expression}' is: {result}")
-
-
-```
