@@ -1,5 +1,9 @@
 # cc
 
+### The Global Variable declaration in Python
+
+` Write Global before the variabkle inside the function in which it is being called`
+
 getting started
 
 # write apython code for a simpele task that will read a .txt file from it an expression and convert it into postfix 
