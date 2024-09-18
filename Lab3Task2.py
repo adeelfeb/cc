@@ -41,14 +41,14 @@ def displayError():
 
 def getNextToken():
     global counterOfString
+    global next_Token
     counterOfString= counterOfString + 1
-    if(len(expression) != (counterOfString +1 )):
-        global next_Token
+    if( counterOfString < len(expression) ):
         next_Token = expression[counterOfString]
     else:
         print('String is not complete')
-        return
-    
+        return False
+    return True
 
 
 def A_NonTerminal():
@@ -62,7 +62,10 @@ def A_NonTerminal():
         displayError()
     
 def B_NonTerminal():
-    if(next_Token == '_'):
+    if(counterOfString >= len(expression)):
+        return
+
+    elif(next_Token == '_'):
         getNextToken()
         B_NonTerminal()
     elif(next_Token.isalpha()):
