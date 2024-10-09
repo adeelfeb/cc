@@ -1,6 +1,44 @@
 # cc
 
 
+
+
+```
+%{
+#include <stdio.h>
+int operators_count = 0, integers_count = 0; // Counters for operators and integers
+%}
+
+%%
+
+"+"|"-"|"*"|"/" {
+    operators_count++;
+    printf("Operator: %s\n", yytext); // Print the operator
+}
+
+[0-9]+ {
+    integers_count++;
+    printf("Integer: %s\n", yytext); // Print the integer
+}
+
+[ \t\n] ; // Ignore whitespace and newlines
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    printf("Enter an arithmetic expression: ");
+    yylex(); // Call the lexer
+
+    printf("\nTotal Operators: %d\n", operators_count);
+    printf("Total Integers: %d\n", integers_count);
+
+    return 0;
+} ```
+
 ### The Global Variable declaration in Python
 
 ` Write Global before the variabkle inside the function in which it is being called`
@@ -11,6 +49,51 @@ getting started
 
 
 ```
+
+
+
+```
+%{
+    #include <stdio.h>
+%}
+
+%%
+
+"+"|"-"|"*"|"/" { printf("Operator: %s\n", yytext); }
+
+[0-9]+ { printf("Integer: %s\n", yytext); }
+
+[ \t]+   ; 
+
+"//".*    ; 
+
+[ \n]     ; 
+
+%%
+
+int yywrap() {
+    return 1;
+}
+
+int main() {
+    printf("Enter an arithmetic expression: ");
+    yylex(); 
+    return 0;
+}
+```
+
+```
+Website Urls: https://gnuwin32.sourceforge.net/packages.html, https://sourceforge.net/projects/mingw/
+Bison:  https://gnuwin32.sourceforge.net/downlinks/bison.php
+Flex: https://gnuwin32.sourceforge.net/downlinks/flex.php
+```
+
+```
+[10/9, 6:59 AM] Adeel: https://youtu.be/NzPB2eiiYDA?feature=shared
+[10/9, 6:59 AM] Adeel: Agr nahi install 
+https://youtu.be/Mmy7y8a-WdA?feature=shared
+```
+
 def infix_to_postfix(expression):
     precedence = {'+': 1, '-': 1, '*': 2, '/': 2, '(': 0}
     stack = []
