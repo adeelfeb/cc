@@ -1,6 +1,276 @@
 # cc
+```py
+# class LR1Parser:
+#     def __init__(self, parse_table, grammar):
+#         self.parse_table = parse_table
+#         self.grammar = grammar
+#         self.stack = []
+#         self.current_token = None
+#         self.pos = 0
+
+#     def next_token(self, tokens):
+#         if self.pos < len(tokens):
+#             self.current_token = tokens[self.pos]
+#             self.pos += 1
+#         else:
+#             self.current_token = ('EOF', '$')
+
+#     def parse(self, tokens):
+#         self.stack = [0]
+#         self.pos = 0
+#         self.next_token(tokens)
+        
+#         while True:
+#             state = self.stack[-1]
+#             action = self.parse_table.get((state, self.current_token[0]))
+            
+#             if not action:
+#                 raise Exception("Syntax error")
+            
+#             if action[0] == 's':  # shift
+#                 self.stack.append(int(action[1:]))
+#                 self.next_token(tokens)
+#             elif action[0] == 'r':  # reduce
+#                 rule = self.grammar[int(action[1:])]
+#                 for _ in range(len(rule[1])):
+#                     self.stack.pop()
+#                 self.stack.append(self.parse_table[(self.stack[-1], rule[0])])
+#             elif action == 'acc':  # accept
+#                 return True
+
+#     def run(self, tokens):
+#         try:
+#             if self.parse(tokens):
+#                 return "Accepted"
+#             else:
+#                 return "Rejected"
+#         except Exception as e:
+#             return "Rejected"
+
+# # Example usage:
+# parse_table = {  # Sample parse table
+#     (0, 'a'): 's1', (0, 'b'): 's2',
+#     (1, 'a'): 'r1', (1, 'b'): 's3',
+#     (2, 'b'): 'r2', (3, 'a'): 'acc',
+# }
+# grammar = [  # Sample grammar rules
+#     ('S', ['a']),
+#     ('S', ['b']),
+# ]
+# tokens = [('a', 'b'), ('b', 'b')]  # Sample tokens
+# parser = LR1Parser(parse_table, grammar)
+# result = parser.run(tokens)
+# print(result)
 
 
+
+# class LR1Parser:
+#     def __init__(self, parse_table, grammar):
+#         self.parse_table = parse_table
+#         self.grammar = grammar
+#         self.stack = []
+#         self.current_token = None
+#         self.pos = 0
+
+#     def next_token(self, tokens):
+#         if self.pos < len(tokens):
+#             self.current_token = tokens[self.pos]
+#             self.pos += 1
+#         else:
+#             self.current_token = '$'  # End of input, use '$' as EOF
+
+#     def parse(self, tokens):
+#         self.stack = [0]
+#         self.pos = 0
+#         self.next_token(tokens)
+        
+#         while True:
+#             state = self.stack[-1]
+#             print(f"State: {state}, Current Token: {self.current_token}")  # Debugging line
+#             action = self.parse_table.get((state, self.current_token))
+            
+#             if not action:
+#                 print(f"No action found for state {state} and token {self.current_token}")  # Debugging line
+#                 raise Exception("Syntax error")
+            
+#             print(f"Action: {action}")  # Debugging line
+
+#             if action[0] == 's':  # shift
+#                 self.stack.append(int(action[1:]))
+#                 self.next_token(tokens)
+#             elif action[0] == 'r':  # reduce
+#                 rule = self.grammar[int(action[1:]) - 1]  # Fixing index: action[1:] gives r1, r2, so subtract 1
+#                 print(f"Reducing with rule: {rule}")  # Debugging line
+#                 for _ in range(len(rule[1])):
+#                     self.stack.pop()
+#                 self.stack.append(self.parse_table[(self.stack[-1], rule[0])])
+#             elif action == 'acc':  # accept
+#                 return True
+
+#     def run(self, tokens):
+#         try:
+#             if self.parse(tokens):
+#                 return "Accepted"
+#             else:
+#                 return "Rejected"
+#         except Exception:
+#             return "Some Exception :)"
+
+# def tokenize(input_string):
+#     # Only return a list of characters, no tuples
+#     return [char for char in input_string]
+
+# parse_table = {  # Updated parse table
+#     (0, 'b'): 's5', (0, 'd'): 's10',
+#     (0, 'S'): '1', (0, 'A'): '3',
+#     (1, '$'): 'acc',
+#     (2, '$'): 'acc',
+#     (3, 'a'): 's4',
+#     (4, '$'): 'r1',
+#     (5, 'd'): 's8', (5, 'A'): '6',
+#     (6, 'c'): 's7',
+#     (7, '$'): 'r2',
+#     (8, 'a'): 's9',
+#     (8, 'c'): 'r5',
+#     (9, '$'): 'r4',
+#     (10, 'a'): 'r5',
+#     (10, 'c'): 's11',
+#     (11, '$'): 'r3',
+# }
+# grammar = [  # Updated grammar rules
+#     ('S', ['Aa']),
+#     ('S', ['bAc']),
+#     ('S', ['dc']),
+#     ('S', ['bda']),
+#     ('A', ['a']),
+# ]
+
+# parser = LR1Parser(parse_table, grammar)
+
+# while True:
+#     input_string = input("Enter a string (or type 'exit' to quit): ")
+#     if input_string.lower() == 'exit':
+#         print("Goodbye!")
+#         break
+#     tokens = tokenize(input_string)
+#     result = parser.run(tokens)
+#     print(result)
+
+
+
+
+
+
+
+
+
+
+
+
+class LR1Parser:
+    def __init__(self, parse_table, grammar):
+        self.parse_table = parse_table
+        self.grammar = grammar
+        self.stack = []
+        self.current_token = None
+        self.pos = 0
+
+    def next_token(self, tokens):
+        if self.pos < len(tokens):
+            self.current_token = tokens[self.pos]
+            self.pos += 1
+        else:
+            self.current_token = '$'  # End of input, use '$' as EOF
+
+    def parse(self, tokens):
+        self.stack = [0]
+        self.pos = 0
+        self.next_token(tokens)
+        
+        while True:
+            state = self.stack[-1]
+            print(f"State: {state}, Current Token: {self.current_token}")  # Debugging line
+            action = self.parse_table.get((state, self.current_token))
+            
+            if not action:
+                print(f"No action found for state {state} and token {self.current_token}")  # Debugging line
+                raise Exception("Syntax error")
+            
+            print(f"Action: {action}")  # Debugging line
+
+            if action[0] == 's':  # shift
+                self.stack.append(int(action[1:]))
+                self.next_token(tokens)
+            elif action[0] == 'r':  # reduce
+                rule = self.grammar[int(action[1:]) - 1]  # Fixing index: action[1:] gives r1, r2, so subtract 1
+                print(f"Reducing with rule: {rule}")  # Debugging line
+                for _ in range(len(rule[1])):
+                    self.stack.pop()
+                # Now, the top of the stack should have the state to transition to after reduction.
+                # Push the new state determined by the left-hand side of the rule.
+                self.stack.append(self.parse_table[(self.stack[-1], rule[0])])
+            elif action == 'acc':  # accept
+                return True
+
+    def run(self, tokens):
+        try:
+            if self.parse(tokens):
+                return "Accepted"
+            else:
+                return "Rejected"
+        except Exception:
+            return "End of parser :)"
+
+def tokenize(input_string):
+    # Only return a list of characters, no tuples
+    return [char for char in input_string]
+
+# Updated parse table to fix issues:
+parse_table = {  
+    (0, 'b'): 's5', (0, 'a'): 's4', (0, 'd'): 's10',  # Handle 'a' shift from state 0
+    (0, 'S'): '1', (0, 'A'): '3', 
+    
+    (1, '$'): 'acc',
+    (2, '$'): 'acc',
+    (3, 'a'): 's4',
+    (4, '$'): 'r1',
+    
+    (5, 'd'): 's8', (5, 'A'): '6',
+    (6, 'c'): 's7',
+    (7, '$'): 'r2',
+    
+    (8, 'a'): 's9',
+    (8, 'c'): 'r5',
+    
+    (9, '$'): 'r4',
+    
+    (10, 'a'): 'r5',
+    (10, 'c'): 's11',
+    
+    (11, '$'): 'r3',
+}
+
+# Updated grammar rules
+grammar = [
+    ('S', ['Aa']),
+    ('S', ['bAc']),
+    ('S', ['dc']),
+    ('S', ['bda']),
+    ('A', ['a']),
+]
+
+parser = LR1Parser(parse_table, grammar)
+
+while True:
+    input_string = input("Enter a string (or type 'exit' to quit): ")
+    if input_string.lower() == 'exit':
+        print("Goodbye!")
+        break
+    tokens = tokenize(input_string)
+    result = parser.run(tokens)
+    print(result)
+
+```
 
 
 ```
